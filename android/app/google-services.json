@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "831810197734",
+    "project_id": "chet-demo",
+    "storage_bucket": "chet-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831810197734:android:2ba2dddcf3d8895412c327",
+        "android_client_info": {
+          "package_name": "com.example.my_chet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831810197734-6pgqh88g7sd7mciq539qsjn5hosbknmg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDX2muKycUsMxcuTuL1W0r3YFT6vTaAcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831810197734-6pgqh88g7sd7mciq539qsjn5hosbknmg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
