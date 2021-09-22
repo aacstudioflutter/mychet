@@ -1,6 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:my_chet/Page/registration_screen.dart';
+import 'package:my_chet/provider/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 import 'login_screen.dart';
 
@@ -73,15 +75,38 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     padding: MaterialStateProperty.all<EdgeInsets>(
                         EdgeInsets.all(15)),
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.blueAccent),
+                        MaterialStateProperty.all<Color>(Colors.blueAccent),
                     foregroundColor:
-                    MaterialStateProperty.all<Color>(Colors.white),
+                        MaterialStateProperty.all<Color>(Colors.white),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                             side: BorderSide(color: Colors.blueAccent)))),
                 onPressed: () {
                   Navigator.pushNamed(context, LoginScreen.id);
+                }),
+            SizedBox(
+              height: 48.0,
+            ),
+            TextButton(
+                child: Text("Sign Up with Google".toUpperCase(),
+                    style: TextStyle(fontSize: 14)),
+                style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.all(15)),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blueAccent),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: Colors.blueAccent)))),
+                onPressed: () {
+                  final provider =
+                      Provider.of<GoogleSignInProvider>(context, listen: false);
+                  provider.login();
+                  //   Navigator.pushNamed(context, LoginScreen.id);
                 }),
             SizedBox(
               height: 48.0,

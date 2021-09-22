@@ -87,33 +87,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       if(user != null) {
                         Navigator.pushNamed(context, ChatScreen.id);
                       }
+                      setState(() {
+                        showSpinner = true;
+                      });
                     }catch(e){
                       print(e);
                     }
 
                   }),
-             /* RoundedButton(
-                title: 'Log In',
-                colour: Colors.lightBlueAccent,
-                onPressed: () async {
-                  setState(() {
-                    showSpinner = true;
-                  });
-                  try {
-                    final user = await _auth.signInWithEmailAndPassword(
-                        email: email, password: password);
-                    if (user != null) {
-                      Navigator.pushNamed(context, ChatScreen.id);
-                    }
 
-                    setState(() {
-                      showSpinner = false;
-                    });
-                  } catch (e) {
-                    print(e);
-                  }
-                },
-              ),*/
             ],
           ),
         ),

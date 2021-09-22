@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 import '../constants.dart';
-
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat_screen';
@@ -14,8 +16,14 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
-
+  late String messageText;
   var loggedInUser;
+  String myText='';
+
+  final DocumentReference documentReference1 =FirebaseFirestore.instance.collection('status').doc();
+
+  final DocumentReference documentReference = FirebaseFirestore.instance.doc("massages/1");
+  final _firestore = FirebaseFirestore.instance;
 
   //FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -31,12 +39,48 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
     getCurrentUser();
   }
+
+  void _add() {
+    Map<String, String> data = <String, String>{
+      "name": "Pawan Kumar",
+      "desc": "Flutter Developer"
+    };
+    documentReference.set(data).whenComplete(() {
+      print("Document Added");
+    }).catchError((e) => print(e));
+  }
+  void _delete() {
+    documentReference.delete().whenComplete(() {
+      print("Deleted Successfully");
+      setState(() {});
+    }).catchError((e) => print(e));
+  }
+  void _update() {
+    Map<String, String> data = <String, String>{
+      "name": "Pawan Kumar Updated",
+      "desc": "Flutter Developer Updated"
+    };
+    documentReference.update(data).whenComplete(() {
+      print("Document Updated");
+    }).catchError((e) => print(e));
+  }
+  void _fetch() {
+    documentReference.get().then((datasnapshot) {
+      if (datasnapshot.exists) {
+        setState(() {
+          myText = datasnapshot['desc'];
+        });
+      }
+    });
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                 _auth.signOut();
+                _auth.signOut();
                 Navigator.pop(context);
               }),
         ],
@@ -69,25 +113,68 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: TextField(
                       controller: messageTextController,
                       onChanged: (value) {
-                        // messageText = value;
+                        messageText = value;
                       },
                       //  decoration: kMessageTextFieldDecoration,
                     ),
                   ),
-                  /* FlatButton(
-                    onPressed: () {
+                  FlatButton(
+                   /* onPressed: () {
                       messageTextController.clear();
-                      _firestore.collection('messages').add({
+                      _firestore.collection('massages').add({
                         'text': messageText,
                         'sender': loggedInUser.email,
                       });
-                    },
+                    },*/
+                    onPressed: _add,
                     child: Text(
                       'Send',
                       style: kSendButtonTextStyle,
                     ),
-                  ),*/
+                  ),
                 ],
+              ),
+            ),
+            FlatButton(
+              onPressed: _update,
+              child: Text(
+                'Update',
+                style: TextStyle(
+                  color: Colors.orange,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+            FlatButton(
+              onPressed: _delete,
+              child: Text(
+                'Delete',
+                style: TextStyle(
+                  color: Colors.redAccent,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+            FlatButton(
+              onPressed: _fetch,
+              child: Text(
+                'Fetch',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+
+            Text(
+              myText,
+              style: TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
               ),
             ),
           ],
@@ -96,5 +183,3 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 }
-
-
